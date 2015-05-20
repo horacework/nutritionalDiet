@@ -21,7 +21,7 @@ NodeJS background processed for an Android app with nutritional diet
 
 数据库类型：MySQL
 
-数据库SQL数据以及设计在根目录database.sql中
+数据库SQL数据以及设计在根目录[database.sql](https://github.com/horacework/nutritionalDiet/blob/master/foodsystem.sql)中
 
 
 
