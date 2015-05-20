@@ -1,6 +1,6 @@
 {
-  "name": "andweb",
-  "version": "0.0.0",
+  "name": "nutritionalDiet",
+  "version": "0.1.2",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
