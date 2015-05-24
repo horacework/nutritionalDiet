@@ -14,16 +14,34 @@ exports.init = function (req, res, next) {
     }
     var page = req.query.page;// per page has 10 object data
     var skip = 10*(page-1);
-    req.models.foodInfo
-      .find({category:categoryID,isDel:0})
-      .order(order)
-      .limit(10)
-      .offset(skip)
-      .run(function (err,item) {
-        if(item[0]==undefined){
-            res.send('null');
-        }else{
-            res.send(item);
-        }
-      });
+    
+    if (categoryID == '0') {    //all
+        req.models.foodInfo
+          .find({isDel:0})
+          .order(order)
+          .limit(10)
+          .offset(skip)
+          .run(function (err,item) {
+            if(item[0]==undefined){
+                res.send('null');
+            }else{
+                res.send(item);
+            }
+          });
+    }else{                    //select limit by categoryID
+        req.models.foodInfo
+          .find({category:categoryID,isDel:0})
+          .order(order)
+          .limit(10)
+          .offset(skip)
+          .run(function (err,item) {
+            if(item[0]==undefined){
+                res.send('null');
+            }else{
+                res.send(item);
+            }
+          });
+    }
+    
+    
 }
