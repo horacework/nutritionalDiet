@@ -15,6 +15,8 @@ exports.init = function (req, res, next) {
     var page = req.query.page;// per page has 10 object data
     var skip = 10*(page-1);
     
+    var callback = req.query.callback;
+    
     if (categoryID == '0') {    //all
         req.models.foodInfo
           .find({isDel:0})
@@ -23,9 +25,20 @@ exports.init = function (req, res, next) {
           .offset(skip)
           .run(function (err,item) {
             if(item[0]==undefined){
-                res.send('null');
+                if (callback==null) {
+                    res.send('null');
+                }else{
+                    res.setHeader("Content-type", "application/x-javascript;charset=utf-8");
+                    res.send(callback + "(" +"{0:null}"+ ")");
+                }
             }else{
-                res.send(item);
+                if (callback==null) {
+                    res.send(item);
+                }else{
+                    var retu = require('../routes/commonFun.js').jsonpCallbackItem(item);
+                    res.setHeader("Content-type", "application/x-javascript;charset=utf-8");
+                    res.send(callback + "(" +retu+ ")");
+                }
             }
           });
     }else{                    //select limit by categoryID
@@ -35,13 +48,25 @@ exports.init = function (req, res, next) {
           .limit(10)
           .offset(skip)
           .run(function (err,item) {
-            if(item[0]==undefined){
-                res.send('null');
-            }else{
-                res.send(item);
-            }
-          });
-    }
+            
+              if(item[0]==undefined){
+                  if (callback == null) {
+                      res.send('null');
+                  }else{
+                    res.setHeader("Content-type", "application/x-javascript;charset=utf-8");
+                    res.send(callback + "(" +"{0:null}"+ ")");
+                  }
+              }else{
+                  if (callback ==null) {
+                      res.send(item)
+                  }else{
+                        var retu = require('../routes/commonFun.js').jsonpCallbackItem(item);
+                        res.setHeader("Content-type", "application/x-javascript;charset=utf-8");
+                        res.send(callback + "(" +retu+ ")");
+                  }
+              }
+            });
+      }
     
     
 }
