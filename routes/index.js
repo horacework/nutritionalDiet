@@ -11,5 +11,7 @@ exports = module.exports = function (app) {
   
   app.get('/getfood',require('../routes/foodInfo').init);
   
+  app.post('/analysis',require('../routes/analysis').postdata);
+  
   app.all('*', require('../routes/http404').init);//Router 404
 };
