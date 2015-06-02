@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2015-05-20 13:16:19
+-- Generation Time: 2015-06-02 20:19:17
 -- 服务器版本： 5.6.20
 -- PHP Version: 5.5.15
 
@@ -1025,6 +1025,34 @@ INSERT INTO `food_info` (`id`, `name`, `heat`, `protein`, `fat`, `vitaminC`, `vi
 (942, '婴儿奶糕', 343, '10.40', '0.90', '0.00', '0.09', '0.12', '0.67', '2.30', '0.55', '6.57', 13, 0),
 (943, '婴儿营养粉[婴宝*5410*]', 426, '17.00', '12.80', '20.00', '3.80', '0.60', '0.90', '5.90', '1.80', '0.00', 13, 0);
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `nutr_standard`
+--
+
+CREATE TABLE IF NOT EXISTS `nutr_standard` (
+  `name` varchar(20) NOT NULL,
+  `content` decimal(7,2) NOT NULL,
+  `isDel` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `nutr_standard`
+--
+
+INSERT INTO `nutr_standard` (`name`, `content`, `isDel`) VALUES
+('fat', '60.00', 0),
+('Fe', '20.00', 0),
+('heat', '2300.00', 0),
+('protein', '70.00', 0),
+('Se', '50.00', 0),
+('vitaminB1', '1.30', 0),
+('vitaminB2', '1.20', 0),
+('vitaminC', '100.00', 0),
+('vitaminE', '14.00', 0),
+('Zn', '11.50', 0);
+
 --
 -- Indexes for dumped tables
 --
@@ -1040,6 +1068,12 @@ ALTER TABLE `food_category`
 --
 ALTER TABLE `food_info`
  ADD PRIMARY KEY (`id`), ADD KEY `category` (`category`), ADD KEY `category_2` (`category`);
+
+--
+-- Indexes for table `nutr_standard`
+--
+ALTER TABLE `nutr_standard`
+ ADD PRIMARY KEY (`name`);
 
 --
 -- AUTO_INCREMENT for dumped tables
