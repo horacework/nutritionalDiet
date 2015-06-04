@@ -13,5 +13,7 @@ exports = module.exports = function (app) {
   
   app.post('/foodconsum',require('../routes/analysis').postdata);
   
+  app.get('/android/update',require('../routes/android').checkUpdate);
+  
   app.all('*', require('../routes/http404').init);//Router 404
 };

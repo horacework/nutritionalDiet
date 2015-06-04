@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2015-06-02 20:19:17
+-- Generation Time: 2015-06-04 16:17:48
 -- 服务器版本： 5.6.20
 -- PHP Version: 5.5.15
 
@@ -19,6 +19,28 @@ SET time_zone = "+00:00";
 --
 -- Database: `foodsystem`
 --
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `android_version`
+--
+
+CREATE TABLE IF NOT EXISTS `android_version` (
+`id` int(5) NOT NULL,
+  `version` varchar(10) NOT NULL,
+  `downLink` varchar(100) NOT NULL,
+  `isDel` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- 转存表中的数据 `android_version`
+--
+
+INSERT INTO `android_version` (`id`, `version`, `downLink`, `isDel`) VALUES
+(1, '1.0.0', 'http://horacework.com', 0),
+(2, '1.0.5', 'http://horacework.com', 0),
+(3, '1.0.9', 'http://horacework.com', 0);
 
 -- --------------------------------------------------------
 
@@ -1058,6 +1080,12 @@ INSERT INTO `nutr_standard` (`name`, `content`, `isDel`) VALUES
 --
 
 --
+-- Indexes for table `android_version`
+--
+ALTER TABLE `android_version`
+ ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `food_category`
 --
 ALTER TABLE `food_category`
@@ -1079,6 +1107,11 @@ ALTER TABLE `nutr_standard`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `android_version`
+--
+ALTER TABLE `android_version`
+MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `food_category`
 --

@@ -3,5 +3,6 @@ exports = module.exports = function(db, models) {
   require('./schema/foodInfo')(db, models);
   require('./schema/foodCategory')(db, models);
   require('./schema/nutrStandard')(db, models);
+  require('./schema/androidVersion')(db, models);
   
 };
