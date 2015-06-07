@@ -11,7 +11,11 @@ exports = module.exports = function (app) {
   
   app.get('/getfood',require('../routes/foodInfo').init);
   
-  app.post('/foodconsum',require('../routes/analysis').postdata);
+  app.get('/getfoodlist',require('../routes/foodInfo').getList);
+  
+  app.get('/getstandard',require('../routes/analysis').getStandard);
+  
+  app.get('/foodconsum',require('../routes/analysis').postdata);
   
   app.get('/android/update',require('../routes/android').checkUpdate);
   

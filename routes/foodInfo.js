@@ -66,7 +66,26 @@ exports.init = function (req, res, next) {
                   }
               }
             });
-      }
+      } 
+};
+
+exports.getList = function (req, res, next) {
     
-    
+    var categoryID = req.query.category;// food category
+    var retu = new Object;
+    var i = 0;
+    req.models.foodInfo.find({category:categoryID,isDel:0},function (err,item) {
+        while(true){
+            if (item[i]==null) {
+                res.send(retu);
+                break;
+            }else{
+                var temp = new Object;
+                temp.id = item[i].id;
+                temp.name = item[i].name;
+                retu[i] = temp;
+                i++;
+            }
+        }
+    });
 }

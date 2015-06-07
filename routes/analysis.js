@@ -37,7 +37,7 @@ exports.postdata = function (req, res, next) {
 	          
 	    },function(cb){
 			
-			async.whilst(
+			async.whilst(				//处理上传数据，查询计算各个营养值
 				function () {
 					return postJson[i]!=null;
 				},
@@ -62,7 +62,7 @@ exports.postdata = function (req, res, next) {
 					cb(err);
 				}
 			);
-	    },function (callback) {
+	    },function (callback) {					//摄入营养值与每日标准对比
 			reData.standard = standard ;
 			reData.postNutr = postNutr ;
 			reData.result = new Object;
@@ -79,6 +79,22 @@ exports.postdata = function (req, res, next) {
 			reData.result.judge['Zn'] 			=  disposeNutr('Zn');
 			reData.result.judge['Se'] 			=  disposeNutr('Se');
 			callback(null);
+		},function (callback) {
+			reData.advice = new Object;
+			reData.advice.moreEat = new String;
+			reData.advice.lessEat = new String;
+			//接下来的判断方式非常粗糙！！！！小朋友千万别学
+			suggestFood('fat','坚果类,动物类皮肉');
+			suggestFood('heat','牛肉,烘烤类食品');
+			suggestFood('protein','豆类,水产类,蛋类');
+			suggestFood('vitaminC','草莓,橘子等水果');
+			suggestFood('vitaminE','豆油,芝麻油');
+			suggestFood('vitaminB1','动物内脏,粮谷类');
+			suggestFood('vitaminB2','全麦粉,豆腐');
+			suggestFood('Fe','猪肝,鸡血');
+			suggestFood('Zn','牡蛎,鱼类');
+			suggestFood('Se','猪肾,鱿鱼');
+			callback(null);
 		}
 	],function(err){  	//组建返回对象
 		res.send(reData);
@@ -94,5 +110,45 @@ exports.postdata = function (req, res, next) {
 			return 'good' ;			//该营养值处在正常范围
 		}
 	};
+	function suggestFood(element,adviceFood) {
+		if (reData.result.judge[element]=='over') {
+				reData.advice.lessEat  += adviceFood+',';
+			}else if (reData.result.judge[element]=='lack') {
+				reData.advice.moreEat  += adviceFood+',';
+			};
+	}
 };
 
+exports.getStandard = function (req, res, next) {
+	
+	var nutrStandard = req.models.nutrStandard;
+	var k = 0;
+	var standard = new Object;
+    
+	nutrStandard.find({isDel:0},function (err,results){
+		while (results[k]!=null) {		//组建标准营养对象
+			standard[results[k].name] = results[k].content;
+			k++;
+		};
+		res.send(standard);
+	});
+	
+};
+
+//function perDayStandard(req)  {  //模块化失败，莫名其妙竟然return不了数据
+//	
+//	var nutrStandard = req.models.nutrStandard;
+//	var k = 0;
+//	var standard = new Object;
+//    
+//	nutrStandard.find({isDel:0},function (err,results){
+//		while (results[k]!=null) {		//组建标准营养对象
+//			standard[results[k].name] = results[k].content;
+//			k++;
+//			console.log(k);
+//		};
+//		console.log(JSON.stringify(standard));
+//		return JSON.stringify(standard);
+//	});
+//	
+//}
