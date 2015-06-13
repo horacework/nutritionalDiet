@@ -1,4 +1,4 @@
-exports = module.exports = function (app) {
+exports = module.exports = function (app,passport) {
   app.get('/', function(req, res, next) {
     res.render('index', { title: 'Express' });//Express example
   });
@@ -6,6 +6,12 @@ exports = module.exports = function (app) {
   app.get('/json',require('../routes/testing').getJson);
   
   app.post('/json',require('../routes/testing').postJson);
+  
+  app.get('/islogin',require('../routes/user').islogin);
+  
+  app.post('/login',require('../routes/user').login);
+  
+  app.post('/signup',require('../routes/user').signup);
   
   app.get('/getcategory',require('../routes/foodCategory').getCategoryList);
   

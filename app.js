@@ -2,6 +2,9 @@ var express = require('express');
 var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 var bodyParser = require('body-parser');
 var orm = require('orm');
 var config = require('./config');
@@ -16,6 +19,13 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+  resave: false,
+  secret: 'horacework.com',
+  cookie: { maxAge: 60000 }
+  }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(orm.express(config.mysql.URL, {
@@ -25,10 +35,12 @@ app.use(orm.express(config.mysql.URL, {
     }
 }));
 
+require('./passport')(app, passport);
+
 //路由列表
 //app.use('/', routes);
 //app.use('/users', users);
-require('./routes/index')(app);
+require('./routes/index')(app, passport);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
