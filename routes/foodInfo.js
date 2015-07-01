@@ -72,12 +72,19 @@ exports.init = function (req, res, next) {
 exports.getList = function (req, res, next) {
     
     var categoryID = req.query.category;// food category
+    var callback = req.query.callback;
     var retu = new Object;
     var i = 0;
     req.models.foodInfo.find({category:categoryID,isDel:0},function (err,item) {
         while(true){
             if (item[i]==null) {
-                res.send(retu);
+                if (callback==null) {
+                    res.send(retu);
+                }else{
+                    res.setHeader("Content-type", "application/x-javascript;charset=utf-8");
+                    var ret = JSON.stringify(retu);
+                    res.send(callback + "(" +ret+ ")");
+                }
                 break;
             }else{
                 var temp = new Object;

@@ -1,11 +1,13 @@
 exports.postdata = function (req, res, next) {
 	var async = require('async');
-	//var postJson = req.body;	//获取post数据
-	var postJson = {		//测试Object
-		0:{id:5,weight:50},	//weight单位为100g
-		1:{id:9,weight:63},
-		2:{id:6,weight:99},
-	}
+	var postJson = req.query;	//获取post数据
+	//console.log(postJso);
+	// var postJson = {		//测试Object
+	// 	0:{id:5,weight:50},	//weight单位为100g
+	// 	1:{id:9,weight:63},
+	// 	2:{id:6,weight:99},
+	// }
+	var jsonpcallback = req.query.callback;
 	var nutrStandard = req.models.nutrStandard;
 	var foodInfo = req.models.foodInfo;
 	var postNutr = {		//初始化post营养值对象
@@ -97,7 +99,14 @@ exports.postdata = function (req, res, next) {
 			callback(null);
 		}
 	],function(err){  	//组建返回对象
-		res.send(reData);
+		if (jsonpcallback==null) {
+			res.send(reData);
+		}else{
+            res.setHeader("Content-type", "application/x-javascript;charset=utf-8");
+            var ret = JSON.stringify(reData);
+			res.send(jsonpcallback + "(" +ret+ ")");
+		}
+		
 	});
 	
 	function disposeNutr(e) {
