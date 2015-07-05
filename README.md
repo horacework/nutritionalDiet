@@ -1,6 +1,7 @@
-# nutritionalDiet
+# nutritionalDiet Sever
 NodeJS background processed for an Android app with nutritional diet 
 
+课程设计已通过，不再更新。
 
 #广东某工业大学Andriod课程设计
 饮食建议系统：
